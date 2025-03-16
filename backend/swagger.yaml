@@ -1,0 +1,8 @@
+openapi: 3.0.0
+info:
+  title: Movies API
+  description: A fully fledged Movie and Actor api.
+  version: 0.1.0
+servers:
+  - url: http://localhost:9000/api
+    description: Local server used for development
