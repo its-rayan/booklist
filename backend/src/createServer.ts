@@ -9,7 +9,7 @@ import routes from './api/v1/routes';
 export default (): Promise<express.Application> => {
   return new Promise<express.Application>((resolve, reject) => {
     try {
-      logger.warn('Starting server');
+      logger.info('Starting server');
       // Create an Express application
       const app = express();
 
