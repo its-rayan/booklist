@@ -1,12 +1,39 @@
 import express from 'express';
+import { StatusCodes } from 'http-status-codes';
+import logger from '../../../logger';
+import { createCollectionSchema } from './schema';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   res.json({ Collections: 'Get Collections' });
 });
 
+// POST api/v1/collections
 router.post('/', async (req, res) => {
-  res.json({ Collections: 'Create Collection' });
+  try {
+    const model = { ...req.body };
+
+    // validate request body
+    const validity = createCollectionSchema.safeParse(model);
+    if (!validity.success) {
+      const { message } = validity.error;
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        error: message
+      });
+    }
+
+    res.status(StatusCodes.CREATED).json({
+      status: 'success',
+      data: { Collections: 'Create Collection' }
+    });
+  } catch (error) {
+    logger.error(error);
+    res.status(StatusCodes.BAD_REQUEST).json({
+      status: 'error',
+      error
+    });
+  }
 });
 
 router.get('/:id', async (req, res) => {
