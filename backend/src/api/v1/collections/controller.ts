@@ -2,6 +2,7 @@ import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 import logger from '../../../logger';
 import { createCollectionSchema } from './schema';
+import Collection from '../../../database/models/collection';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -23,9 +24,12 @@ router.post('/', async (req, res) => {
       });
     }
 
+    const collection = new Collection(model);
+    await collection.save();
+
     res.status(StatusCodes.CREATED).json({
       status: 'success',
-      data: { Collections: 'Create Collection' }
+      data: { collection }
     });
   } catch (error) {
     logger.error(error);
