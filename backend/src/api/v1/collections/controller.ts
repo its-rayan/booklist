@@ -3,14 +3,11 @@ import { StatusCodes } from 'http-status-codes';
 import logger from '../../../logger';
 import { createCollectionSchema } from './schema';
 import Collection from '../../../database/models/collection';
-const router = express.Router();
 
-router.get('/', async (req, res) => {
-  res.json({ Collections: 'Get Collections' });
-});
-
-// POST api/v1/collections
-router.post('/', async (req, res) => {
+export const createCollection = async (
+  req: express.Request,
+  res: express.Response
+) => {
   try {
     const model = { ...req.body };
 
@@ -38,18 +35,4 @@ router.post('/', async (req, res) => {
       error
     });
   }
-});
-
-router.get('/:id', async (req, res) => {
-  res.json({ Collections: 'Get Single Collection' });
-});
-
-router.delete('/:id', async (req, res) => {
-  res.json({ Collections: 'Delete Single Collection' });
-});
-
-router.post('/:id/books', async (req, res) => {
-  res.json({ Collections: 'Add book to Single Collection' });
-});
-
-export default router;
+};
