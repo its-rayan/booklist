@@ -4,6 +4,25 @@ import logger from '../../../logger';
 import { createCollectionSchema } from './schema';
 import Collection from '../../../database/models/collection';
 
+export const getCollections = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const collections = await Collection.find();
+    res.json({
+      status: 'success',
+      data: { collections }
+    });
+  } catch (error) {
+    logger.error(error);
+    res.status(StatusCodes.BAD_REQUEST).json({
+      status: 'error',
+      error
+    });
+  }
+};
+
 export const createCollection = async (
   req: express.Request,
   res: express.Response

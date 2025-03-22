@@ -1,10 +1,9 @@
 import express from 'express';
-import { createCollection } from './controller';
+import { createCollection, getCollections } from './controller';
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  res.json({ Collections: 'Get Collections' });
-});
+// GET api/v1/collections
+router.get('/', getCollections);
 
 // POST api/v1/collections
 router.post('/', createCollection);
