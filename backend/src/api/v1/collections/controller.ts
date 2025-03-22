@@ -55,3 +55,23 @@ export const createCollection = async (
     });
   }
 };
+
+export const getCollection = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { id } = req.params;
+    const collection = await Collection.findById(id);
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      data: { collection }
+    });
+  } catch (error) {
+    logger.error(error);
+    res.status(StatusCodes.BAD_REQUEST).json({
+      status: 'error',
+      error
+    });
+  }
+};
