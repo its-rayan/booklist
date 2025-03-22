@@ -1,5 +1,10 @@
 import express from 'express';
-import { createCollection, getCollection, getCollections } from './controller';
+import {
+  createCollection,
+  deleteCollection,
+  getCollection,
+  getCollections
+} from './controller';
 const router = express.Router();
 
 // GET api/v1/collections
@@ -10,9 +15,7 @@ router.post('/', createCollection);
 
 router.get('/:id', getCollection);
 
-router.delete('/:id', async (req, res) => {
-  res.json({ Collections: 'Delete Single Collection' });
-});
+router.delete('/:id', deleteCollection);
 
 router.post('/:id/books', async (req, res) => {
   res.json({ Collections: 'Add book to Single Collection' });

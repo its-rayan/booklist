@@ -75,3 +75,20 @@ export const getCollection = async (
     });
   }
 };
+
+export const deleteCollection = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { id } = req.params;
+    await Collection.findByIdAndDelete(id);
+    res.status(StatusCodes.NO_CONTENT).json();
+  } catch (error) {
+    logger.error(error);
+    res.status(StatusCodes.BAD_REQUEST).json({
+      status: 'error',
+      error
+    });
+  }
+};
