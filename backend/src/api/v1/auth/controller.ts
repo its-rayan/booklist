@@ -1,15 +1,15 @@
 import express from 'express';
-import { signInSchema } from './schemas';
+import { signUpSchema } from './schemas';
 import { StatusCodes } from 'http-status-codes';
 import logger from '../../../logger';
 import User from '../../../database/models/user';
 
-export const signIn = async (req: express.Request, res: express.Response) => {
+export const signUp = async (req: express.Request, res: express.Response) => {
   try {
     const model = { ...req.body };
 
     // validate request body
-    const validity = signInSchema.safeParse(model);
+    const validity = signUpSchema.safeParse(model);
     if (!validity.success) {
       const { message } = validity.error;
       res.status(StatusCodes.BAD_REQUEST).json({
