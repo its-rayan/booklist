@@ -12,7 +12,7 @@ export const getCollections = async (
     const collections = await Collection.find();
     res.json({
       status: 'success',
-      data: { collections }
+      data: collections
     });
   } catch (error) {
     logger.error(error);
@@ -45,7 +45,7 @@ export const createCollection = async (
 
     res.status(StatusCodes.CREATED).json({
       status: 'success',
-      data: { collection }
+      data: collection
     });
   } catch (error) {
     logger.error(error);
@@ -65,7 +65,7 @@ export const getCollection = async (
     const collection = await Collection.findById(id);
     res.status(StatusCodes.OK).json({
       status: 'success',
-      data: { collection }
+      data: collection
     });
   } catch (error) {
     logger.error(error);
