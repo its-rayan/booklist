@@ -1,11 +1,13 @@
 import express from 'express';
-import { signUp, signIn } from './controller';
+import { signIn, signUp } from './controller';
+import authenticateMiddleware from '../../../lib/passport/authenticateMiddleware';
+
 const router = express.Router();
 
 // POST api/v1/auth/signup
 router.post('/signup', signUp);
 
 // POST api/v1/auth/signin
-router.post('/signin', signIn);
+router.post('/signin', authenticateMiddleware, signIn);
 
 export default router;

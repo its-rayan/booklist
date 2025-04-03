@@ -3,7 +3,7 @@ import { signInSchema, signUpSchema } from './schemas';
 import { StatusCodes } from 'http-status-codes';
 import logger from '../../../logger';
 import User from '../../../database/models/user';
-import { hashPassword } from '../../../lib/auth/password';
+import { hashPassword } from '../../../lib/bcrypt';
 
 export const signUp = async (req: express.Request, res: express.Response) => {
   try {

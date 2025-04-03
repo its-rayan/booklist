@@ -1,20 +1,36 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import passport from 'passport';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerDocument, swaggerOptions } from './swaggerOptions';
 import logger, { loggerMiddleware } from './logger';
 import routes from './api/v1/routes';
+import './lib/passport/localStrategy';
 
 export default (): Promise<express.Application> => {
   return new Promise<express.Application>((resolve, reject) => {
     try {
       logger.info('Starting server');
-      // Create an Express application
+
       const app = express();
 
-      // Add generic Middlewares
       app.use(helmet());
+
+      app.use(cookieParser());
+
+      app.use(
+        session({
+          secret: 'keyboard cat',
+          resave: false, // don't save session if unmodified
+          saveUninitialized: false // don't create session until something stored
+        })
+      );
+
+      app.use(passport.initialize());
+      app.use(passport.authenticate('session'));
 
       app.use(cors());
 
