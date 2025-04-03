@@ -3,6 +3,7 @@ import { signInSchema, signUpSchema } from './schemas';
 import { StatusCodes } from 'http-status-codes';
 import logger from '../../../logger';
 import User from '../../../database/models/user';
+import { hashPassword } from '../../../lib/auth/password';
 
 export const signUp = async (req: express.Request, res: express.Response) => {
   try {
@@ -27,7 +28,10 @@ export const signUp = async (req: express.Request, res: express.Response) => {
       });
     }
 
-    const user = new User(model);
+    const hashedPassword = await hashPassword(model.password);
+    const updatedModel = { ...model, password: hashedPassword };
+
+    const user = new User(updatedModel);
     await user.save();
 
     res.status(StatusCodes.CREATED).json({
