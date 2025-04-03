@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import express from 'express';
 import { signInSchema, signUpSchema } from './schemas';
 import { StatusCodes } from 'http-status-codes';
@@ -80,4 +81,20 @@ export const signIn = async (req: express.Request, res: express.Response) => {
       error
     });
   }
+};
+
+export const signOut = async (req: any, res: express.Response) => {
+  // logout via passport function added by the authenticate middleware
+  req.logout((err: any) => {
+    if (err) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        error: 'Logout failed'
+      });
+    }
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      message: 'User signed out successfully'
+    });
+  });
 };
