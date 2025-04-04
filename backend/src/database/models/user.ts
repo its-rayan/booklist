@@ -1,5 +1,14 @@
 import mongoose from 'mongoose';
 
+export interface UserModel extends mongoose.Document {
+  _id: mongoose.Types.ObjectId;
+  username: string;
+  email: string;
+  password: string;
+  avatar: string;
+  collections: mongoose.Types.ObjectId[];
+}
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -22,4 +31,5 @@ const userSchema = new mongoose.Schema({
   ]
 });
 
-export default mongoose.models.User || mongoose.model('User', userSchema);
+export default (mongoose.models.User as mongoose.Model<UserModel>) ||
+  mongoose.model<UserModel>('User', userSchema);
