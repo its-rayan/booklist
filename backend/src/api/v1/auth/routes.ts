@@ -1,6 +1,5 @@
 import express from 'express';
-import { signIn, signOut, signUp } from './controller';
-import authenticateMiddleware from '../../../lib/passport/authenticateMiddleware';
+import { signIn, signUp } from './controller';
 
 const router = express.Router();
 
@@ -8,9 +7,6 @@ const router = express.Router();
 router.post('/signup', signUp);
 
 // POST api/v1/auth/signin
-router.post('/signin', authenticateMiddleware, signIn);
-
-// GET api/v1/auth/signout
-router.get('/signout', signOut);
+router.post('/signin', signIn);
 
 export default router;

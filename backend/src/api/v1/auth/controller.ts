@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import express from 'express';
 import { signInSchema, signUpSchema } from './schemas';
 import { StatusCodes } from 'http-status-codes';
 import logger from '../../../logger';
 import User from '../../../database/models/user';
-import { hashPassword } from '../../../lib/bcrypt';
+import { hashPassword, validatePassword } from '../../../lib/bcrypt';
+import { signJwt } from '../../../lib/jwt';
 
 export const signUp = async (req: express.Request, res: express.Response) => {
   try {
@@ -62,17 +62,33 @@ export const signIn = async (req: express.Request, res: express.Response) => {
       });
     }
 
-    const user = await User.findOne({ email: model.email });
-    if (!user) {
+    const foundUser = await User.findOne({ email: model.email });
+    if (!foundUser) {
       res.status(StatusCodes.NOT_FOUND).json({
         status: 'error',
-        error: 'User not found'
+        error: 'Invalid credentials'
       });
     }
 
+    const isPasswordValid = await validatePassword(
+      model.password,
+      foundUser.password
+    );
+    if (!isPasswordValid) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        error: 'Invalid credentials'
+      });
+    }
+
+    const token = signJwt({
+      id: foundUser._id,
+      username: foundUser.email
+    });
+
     res.status(StatusCodes.OK).json({
       status: 'success',
-      data: user
+      data: token
     });
   } catch (error) {
     logger.error(error);
@@ -81,20 +97,4 @@ export const signIn = async (req: express.Request, res: express.Response) => {
       error
     });
   }
-};
-
-export const signOut = async (req: any, res: express.Response) => {
-  // logout via passport function added by the authenticate middleware
-  req.logout((err: any) => {
-    if (err) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        status: 'error',
-        error: 'Logout failed'
-      });
-    }
-    res.status(StatusCodes.OK).json({
-      status: 'success',
-      message: 'User signed out successfully'
-    });
-  });
 };
