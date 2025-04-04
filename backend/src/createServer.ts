@@ -8,7 +8,6 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerDocument, swaggerOptions } from './swaggerOptions';
 import logger, { loggerMiddleware } from './logger';
 import routes from './api/v1/routes';
-import './lib/passport/localStrategy';
 
 export default (): Promise<express.Application> => {
   return new Promise<express.Application>((resolve, reject) => {
