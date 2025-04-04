@@ -18,6 +18,7 @@ export const signUp = async (req: express.Request, res: express.Response) => {
         status: 'error',
         error: message
       });
+      return;
     }
 
     // Check if user exists
@@ -27,6 +28,7 @@ export const signUp = async (req: express.Request, res: express.Response) => {
         status: 'error',
         error: 'User already exists'
       });
+      return;
     }
 
     const hashedPassword = await hashPassword(model.password);
@@ -35,12 +37,16 @@ export const signUp = async (req: express.Request, res: express.Response) => {
     const user = new User(updatedModel);
     await user.save();
 
-    res.status(StatusCodes.CREATED).json({
+    const token = signJwt({
+      id: user._id
+    });
+
+    res.status(StatusCodes.OK).json({
       status: 'success',
-      data: user
+      data: token
     });
   } catch (error) {
-    logger.error(error);
+    logger.error(`[signUp]: ${error}`);
     res.status(StatusCodes.BAD_REQUEST).json({
       status: 'error',
       error
@@ -60,6 +66,7 @@ export const signIn = async (req: express.Request, res: express.Response) => {
         status: 'error',
         error: message
       });
+      return;
     }
 
     const foundUser = await User.findOne({ email: model.email });
@@ -68,6 +75,7 @@ export const signIn = async (req: express.Request, res: express.Response) => {
         status: 'error',
         error: 'Invalid credentials'
       });
+      return;
     }
 
     const isPasswordValid = await validatePassword(
@@ -79,11 +87,11 @@ export const signIn = async (req: express.Request, res: express.Response) => {
         status: 'error',
         error: 'Invalid credentials'
       });
+      return;
     }
 
     const token = signJwt({
-      id: foundUser._id,
-      username: foundUser.email
+      id: foundUser._id
     });
 
     res.status(StatusCodes.OK).json({
@@ -91,7 +99,7 @@ export const signIn = async (req: express.Request, res: express.Response) => {
       data: token
     });
   } catch (error) {
-    logger.error(error);
+    logger.error(`[signIn]: ${error}`);
     res.status(StatusCodes.BAD_REQUEST).json({
       status: 'error',
       error
