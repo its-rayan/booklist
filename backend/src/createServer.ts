@@ -3,7 +3,6 @@ import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import passport from 'passport';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerDocument, swaggerOptions } from './swaggerOptions';
 import logger, { loggerMiddleware } from './logger';
@@ -27,9 +26,6 @@ export default (): Promise<express.Application> => {
           saveUninitialized: false // don't create session until something stored
         })
       );
-
-      app.use(passport.initialize());
-      app.use(passport.authenticate('session'));
 
       app.use(cors());
 
