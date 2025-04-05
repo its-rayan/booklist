@@ -4,7 +4,7 @@ export interface CollectionModel extends mongoose.Document {
   _id: mongoose.Types.ObjectId;
   name: string;
   description: string;
-  userId: mongoose.Types.ObjectId[];
+  userId: mongoose.Types.ObjectId;
   books: mongoose.Types.ObjectId[];
 }
 
@@ -20,8 +20,8 @@ const collectionSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: false,
-    ref: 'User'
+    ref: 'User',
+    required: true
   },
   books: [
     {

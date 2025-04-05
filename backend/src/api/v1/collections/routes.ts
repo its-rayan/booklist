@@ -5,13 +5,14 @@ import {
   getCollection,
   getCollections
 } from './controller';
+import authGuard from '../../../middleware/authGuard';
 const router = express.Router();
 
 // GET api/v1/collections
 router.get('/', getCollections);
 
 // POST api/v1/collections
-router.post('/', createCollection);
+router.post('/', authGuard, createCollection);
 
 // GET api/v1/collections/:id
 router.get('/:id', getCollection);
