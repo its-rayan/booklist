@@ -27,10 +27,9 @@ export const createCollection = async (req: Request, res: Response) => {
     // validate request body
     const validity = createCollectionSchema.safeParse(model);
     if (!validity.success) {
-      const { message } = validity.error;
       res.status(StatusCodes.BAD_REQUEST).json({
         status: 'error',
-        error: message
+        error: validity.error.format()
       });
     }
 

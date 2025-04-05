@@ -13,10 +13,9 @@ export const signUp = async (req: express.Request, res: express.Response) => {
     // validate request body
     const validity = signUpSchema.safeParse(model);
     if (!validity.success) {
-      const { message } = validity.error;
       res.status(StatusCodes.BAD_REQUEST).json({
         status: 'error',
-        error: message
+        error: validity.error.format()
       });
       return;
     }
@@ -61,10 +60,9 @@ export const signIn = async (req: express.Request, res: express.Response) => {
     // validate request body
     const validity = signInSchema.safeParse(model);
     if (!validity.success) {
-      const { message } = validity.error;
       res.status(StatusCodes.BAD_REQUEST).json({
         status: 'error',
-        error: message
+        error: validity.error.format()
       });
       return;
     }
