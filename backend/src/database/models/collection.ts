@@ -1,5 +1,13 @@
 import mongoose from 'mongoose';
 
+export interface CollectionModel extends mongoose.Document {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+  description: string;
+  userId: mongoose.Types.ObjectId[];
+  books: mongoose.Types.ObjectId[];
+}
+
 const collectionSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -8,7 +16,6 @@ const collectionSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: false,
     trim: true
   },
   userId: {
@@ -24,5 +31,6 @@ const collectionSchema = new mongoose.Schema({
   ]
 });
 
-export default mongoose.models.Collection ||
-  mongoose.model('Collection', collectionSchema);
+export default (mongoose.models
+  .Collection as mongoose.Model<CollectionModel>) ||
+  mongoose.model<CollectionModel>('Collection', collectionSchema);

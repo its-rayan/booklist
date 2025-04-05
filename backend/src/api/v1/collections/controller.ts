@@ -1,13 +1,10 @@
-import express from 'express';
+import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import logger from '../../../logger';
 import { createCollectionSchema } from './schema';
 import Collection from '../../../database/models/collection';
 
-export const getCollections = async (
-  req: express.Request,
-  res: express.Response
-) => {
+export const getCollections = async (req: Request, res: Response) => {
   try {
     const collections = await Collection.find();
     res.json({
@@ -23,10 +20,7 @@ export const getCollections = async (
   }
 };
 
-export const createCollection = async (
-  req: express.Request,
-  res: express.Response
-) => {
+export const createCollection = async (req: Request, res: Response) => {
   try {
     const model = { ...req.body };
 
@@ -56,10 +50,7 @@ export const createCollection = async (
   }
 };
 
-export const getCollection = async (
-  req: express.Request,
-  res: express.Response
-) => {
+export const getCollection = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const collection = await Collection.findById(id);
@@ -76,10 +67,7 @@ export const getCollection = async (
   }
 };
 
-export const deleteCollection = async (
-  req: express.Request,
-  res: express.Response
-) => {
+export const deleteCollection = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await Collection.findByIdAndDelete(id);

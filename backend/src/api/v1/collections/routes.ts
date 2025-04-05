@@ -13,8 +13,10 @@ router.get('/', getCollections);
 // POST api/v1/collections
 router.post('/', createCollection);
 
+// GET api/v1/collections/:id
 router.get('/:id', getCollection);
 
+// DELETE api/v1/collections/:id
 router.delete('/:id', deleteCollection);
 
 router.post('/:id/books', async (req, res) => {
