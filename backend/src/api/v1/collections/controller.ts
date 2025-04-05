@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import logger from '../../../logger';
-import { createCollectionSchema } from './schema';
+import { createCollectionSchema } from './schemas';
 import Collection from '../../../database/models/collection';
 
 export const getCollections = async (req: Request, res: Response) => {

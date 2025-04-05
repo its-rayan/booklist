@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { createDocument } from 'zod-openapi';
 import { collectionsPaths } from './collections';
-import { CollectionSchema } from '../../api/v1/collections/schema';
+import { CollectionSchema } from '../../api/v1/collections/schemas';
 
 import { stringify } from 'yaml';
 

@@ -9,7 +9,9 @@ export const createCollectionSchema = z.object({
   userId: z.string().min(1, 'User ID is required')
 });
 
-// OpenAPI schema collection
+/*************************************
+ ***** REQUIRED FOR SWAGGER DOCS *****
+ *************************************/
 export const CollectionSchema = z
   .object({
     id: z.string().describe('The unique identifier for the collection'),

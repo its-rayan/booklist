@@ -1,7 +1,7 @@
 import {
   CollectionSchema,
   createCollectionSchema
-} from '../../../api/v1/collections/schema';
+} from '../../../api/v1/collections/schemas';
 import { ZodOpenApiOperationObject } from 'zod-openapi';
 
 export const createCollection: ZodOpenApiOperationObject = {
