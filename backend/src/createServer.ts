@@ -1,8 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import session from 'express-session';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerDocument, swaggerOptions } from './swaggerOptions';
 import logger, { loggerMiddleware } from './logger';
@@ -16,16 +14,6 @@ export default (): Promise<express.Application> => {
       const app = express();
 
       app.use(helmet());
-
-      app.use(cookieParser());
-
-      app.use(
-        session({
-          secret: 'keyboard cat',
-          resave: false, // don't save session if unmodified
-          saveUninitialized: false // don't create session until something stored
-        })
-      );
 
       app.use(cors());
 
