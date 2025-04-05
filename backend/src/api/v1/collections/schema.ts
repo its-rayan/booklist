@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import z from '../../../lib/zod';
 
 export const createCollectionSchema = z.object({
   name: z
@@ -8,3 +8,22 @@ export const createCollectionSchema = z.object({
   description: z.string().min(1).max(255),
   userId: z.string().min(1, 'User ID is required')
 });
+
+// OpenAPI schema collection
+export const CollectionSchema = z
+  .object({
+    id: z.string().describe('The unique identifier for the collection'),
+    name: z.string().describe('The name of the collection'),
+    description: z.string().describe('The description of the collection'),
+    userId: z.string().describe('The ID of the user who owns the collection'),
+    books: z
+      .array(z.string())
+      .describe('The IDs of the books in the collection'),
+    createdAt: z
+      .date()
+      .describe('The date and time when the collection was created'),
+    updatedAt: z
+      .date()
+      .describe('The date and time when the collection was last updated')
+  })
+  .openapi({ title: 'Collection' });

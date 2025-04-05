@@ -16,7 +16,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "typeRoots": ["src/types"]
+    "typeRoots": ["src/types", "node_modules/@types"]
   },
   "include": ["src/**/*"]
 }

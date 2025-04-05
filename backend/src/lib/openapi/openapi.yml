@@ -1,0 +1,84 @@
+openapi: 3.0.3
+info:
+  title: Booklist API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+paths:
+  /collections:
+    post:
+      operationId: createCollection
+      x-speakeasy-name-override: create
+      x-speakeasy-usage-example: true
+      summary: Create a new collection
+      description: Create a new collection for the authenticated user.
+      tags:
+        - Collections
+      security:
+        - token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                description:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                userId:
+                  type: string
+                  minLength: 1
+              required:
+                - name
+                - description
+                - userId
+      responses:
+        "200":
+          description: The created collection
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CollectionSchema"
+components:
+  schemas:
+    CollectionSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the collection
+        name:
+          type: string
+          description: The name of the collection
+        description:
+          type: string
+          description: The description of the collection
+        userId:
+          type: string
+          description: The ID of the user who owns the collection
+        books:
+          type: array
+          items:
+            type: string
+          description: The IDs of the books in the collection
+        createdAt:
+          type: string
+          description: The date and time when the collection was created
+        updatedAt:
+          type: string
+          description: The date and time when the collection was last updated
+      required:
+        - id
+        - name
+        - description
+        - userId
+        - books
+        - createdAt
+        - updatedAt
+      title: Collection
