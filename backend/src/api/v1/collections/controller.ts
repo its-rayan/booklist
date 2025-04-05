@@ -34,6 +34,18 @@ export const createCollection = async (req: Request, res: Response) => {
       });
     }
 
+    const foundCollection = await Collection.findOne({
+      name: model.name,
+      userId: model.userId
+    });
+    if (foundCollection) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        error: 'Collection already exists'
+      });
+      return;
+    }
+
     const collection = new Collection(model);
     await collection.save();
 
