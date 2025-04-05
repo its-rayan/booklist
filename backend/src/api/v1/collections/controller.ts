@@ -53,7 +53,18 @@ export const createCollection = async (req: Request, res: Response) => {
 export const getCollection = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const collection = await Collection.findById(id);
+    const collection = await Collection.findById(id).populate({
+      path: 'userId',
+      select: 'username'
+    });
+    if (!collection) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        error: 'Collection not found'
+      });
+      return;
+    }
+
     res.status(StatusCodes.OK).json({
       status: 'success',
       data: collection

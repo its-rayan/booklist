@@ -11,7 +11,7 @@ export interface JwtPayload extends jwt.JwtPayload {
 
 export const signJwt = (payload: signJwtPayload) => {
   return jwt.sign(payload, `${process.env.JWT_SECRET}`, {
-    expiresIn: parseInt(`${process.env.JWT_EXPIRES_IN}`)
+    expiresIn: '30d'
   });
 };
 
