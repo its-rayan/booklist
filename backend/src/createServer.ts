@@ -2,9 +2,9 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import { swaggerDocument, swaggerOptions } from './swaggerOptions';
-import logger, { loggerMiddleware } from './logger';
-import routes from './api/v1/routes';
+import { swaggerDocument, swaggerOptions } from '@/swaggerOptions';
+import logger, { loggerMiddleware } from '@/logger';
+import routes from '@/api/v1/routes';
 
 export default (): Promise<express.Application> => {
   return new Promise<express.Application>((resolve, reject) => {

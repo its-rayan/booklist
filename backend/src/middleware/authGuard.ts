@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { VerifyErrors } from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
-import { verifyJwt } from '../lib/jwt';
-import logger from '../logger';
+import { verifyJwt } from '@/lib/jwt';
+import logger from '@/logger';
 
 const authGuard = (req: Request, res: Response, next: NextFunction) => {
   try {

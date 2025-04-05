@@ -1,4 +1,7 @@
 {
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
@@ -16,7 +19,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "typeRoots": ["src/types", "node_modules/@types"]
+    "typeRoots": ["src/types", "node_modules/@types"],
+    "baseUrl": ".",
+    "paths": {
+      "@/lib/*": ["src/lib/*"],
+      "@/middleware/*": ["src/middleware/*"],
+      "@/database/*": ["src/database/*"],
+      "@/api/*": ["src/api/*"],
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*"]
 }

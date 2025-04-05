@@ -1,10 +1,10 @@
 import express from 'express';
 import { signInSchema, signUpSchema } from './schemas';
 import { StatusCodes } from 'http-status-codes';
-import logger from '../../../logger';
-import User from '../../../database/models/user';
-import { hashPassword, validatePassword } from '../../../lib/bcrypt';
-import { signJwt } from '../../../lib/jwt';
+import logger from '@/logger';
+import User from '@/database/models/user';
+import { hashPassword, validatePassword } from '@/lib/bcrypt';
+import { signJwt } from '@/lib/jwt';
 
 export const signUp = async (req: express.Request, res: express.Response) => {
   try {

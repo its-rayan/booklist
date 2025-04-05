@@ -2,10 +2,10 @@
 import dotnev from 'dotenv';
 dotnev.config();
 
-import createServer from './createServer';
-import config from './config';
-import logger from './logger';
-import connectToDbClient from './database/createDbConnection';
+import createServer from '@/createServer';
+import config from '@/config';
+import logger from '@/logger';
+import connectToDbClient from '@/database/createDbConnection';
 
 const bootstrapApp = async () => {
   const app = await createServer();

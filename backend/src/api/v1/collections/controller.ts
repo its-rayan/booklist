@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import logger from '../../../logger';
+import logger from '@/logger';
 import { createCollectionSchema } from './schemas';
-import Collection from '../../../database/models/collection';
+import Collection from '@/database/models/collection';
 
 export const getCollections = async (req: Request, res: Response) => {
   try {

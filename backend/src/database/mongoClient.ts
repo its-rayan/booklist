@@ -1,6 +1,6 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
-import config from '../config';
-import logger from '../logger';
+import config from '@/config';
+import logger from '@/logger';
 
 if (!config.db.uri) {
   throw new Error(`Invalid/Mssing environment variable: MONGO_URI`);
