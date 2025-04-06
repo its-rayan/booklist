@@ -5,7 +5,12 @@ export interface CollectionModel extends mongoose.Document {
   name: string;
   description: string;
   userId: mongoose.Types.ObjectId;
-  books: mongoose.Types.ObjectId[];
+  books: {
+    id: string;
+    title: string;
+    authors: string[];
+    thumbnail: string;
+  }[];
 }
 
 const collectionSchema = new mongoose.Schema({
@@ -23,12 +28,10 @@ const collectionSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  books: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Book'
-    }
-  ]
+  books: {
+    type: Array,
+    default: []
+  }
 });
 
 export default (mongoose.models

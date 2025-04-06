@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  addBooksToCollection,
   createCollection,
   deleteCollection,
   getCollection,
@@ -20,8 +21,7 @@ router.get('/:id', getCollection);
 // DELETE api/v1/collections/:id
 router.delete('/:id', deleteCollection);
 
-router.post('/:id/books', async (req, res) => {
-  res.json({ Collections: 'Add book to Single Collection' });
-});
+// GET api/v1/collections/:id/books
+router.post('/:id/books', authGuard, addBooksToCollection);
 
 export default router;

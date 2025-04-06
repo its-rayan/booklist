@@ -9,6 +9,19 @@ export const createCollectionSchema = z.object({
   userId: z.string().min(1, 'User ID is required')
 });
 
+export const addBooksToCollectionSchema = z
+  .array(
+    z.object({
+      id: z.string().min(1, 'Book ID is required'),
+      title: z.string().min(1, 'Book title is required'),
+      authors: z.array(z.string().min(1, 'Authors name is required')),
+      thumbnail: z.string().url('Invalid URL for book thumbnail')
+    })
+  )
+  .refine((data) => data.length > 0, {
+    message: 'At least one book is required'
+  });
+
 /*************************************
  ***** REQUIRED FOR SWAGGER DOCS *****
  *************************************/
