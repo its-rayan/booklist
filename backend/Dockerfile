@@ -12,9 +12,6 @@ RUN npm install
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Set PORT environment variable
-ENV PORT=9000
-
 # Expose the port the app runs on
 EXPOSE 9000
 

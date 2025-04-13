@@ -1,0 +1,9 @@
+services:
+  backend:
+    build: .
+    environment:
+      NODE_ENV: production
+      MONGO_URI: ${MONGO_URI}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - '9000:9000'
