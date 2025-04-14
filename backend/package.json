@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npm run build && node build/index.js",
     "start:dev": "NODE_ENV=development npx nodemon",
-    "build": "rimraf ./build && tsc && tsc-alias",
+    "build": "rimraf ./build && tsc -b && tsc-alias",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "lint": "eslint . --ext .ts",
     "create:swagger": "npx ts-node src/lib/openapi/createSchema.ts"
