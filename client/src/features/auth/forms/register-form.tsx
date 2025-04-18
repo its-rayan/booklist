@@ -9,16 +9,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
-
-type RegisterData = {
-  username: string;
-  email: string;
-  password: string;
-};
+import type { RegisterFormData } from "../interfaces";
 
 type Props = {
-  form: UseFormReturn<RegisterData>;
-  onSubmit: (data: RegisterData) => void;
+  form: UseFormReturn<RegisterFormData>;
+  onSubmit: (data: RegisterFormData) => void;
 };
 
 const RegisterForm: React.FC<Props> = ({ form, onSubmit }) => (
