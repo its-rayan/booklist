@@ -104,3 +104,36 @@ export const signIn = async (req: express.Request, res: express.Response) => {
     });
   }
 };
+
+export const getUser = async (req: express.Request, res: express.Response) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(StatusCodes.UNAUTHORIZED).json({
+        status: 'error',
+        error: 'Unauthorized'
+      });
+      return;
+    }
+
+    const user = await User.findById(userId).select('-password');
+    if (!user) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        error: 'User not found'
+      });
+      return;
+    }
+
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      data: user
+    });
+  } catch (error) {
+    logger.error(`[getUser]: ${error}`);
+    res.status(StatusCodes.BAD_REQUEST).json({
+      status: 'error',
+      error
+    });
+  }
+};
