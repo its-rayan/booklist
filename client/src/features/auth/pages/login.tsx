@@ -1,28 +1,48 @@
 import { Link } from "react-router";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import AuthLayout from "../layout";
+import LoginForm from "../forms/login-form";
+import { API_AUTH_URL, PAGE_URL } from "@/constants/domains";
+import { loginFormSchema } from "../schemas";
+import { useMutation } from "@tanstack/react-query";
+import { LoginFormData } from "../interfaces";
 
 const Login = () => {
-  const form = useForm({
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
-  const onSubmit = (data: unknown) => {
-    console.log(data);
-  };
+
+  const mutation = useMutation({
+    mutationFn: (data: LoginFormData) => {
+      return fetch(`${API_AUTH_URL}/signin`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      });
+    },
+    onSuccess: (response) => {
+      // save the token to local storage
+      localStorage.setItem("token", response.data);
+
+      // redirect to the home page
+      window.location.href = `${PAGE_URL.HOME}`;
+    },
+  });
+
+  const onSubmit = (data: LoginFormData) => mutation.mutate(data);
 
   return (
     <AuthLayout>
@@ -31,52 +51,15 @@ const Login = () => {
         <h1 className="text-xl font-medium">Login Page</h1>
         <p className="text-neutral-500">
           Don't have an account?{" "}
-          <Link to="/register">
+          <Link to={`${PAGE_URL.REGISTER}`}>
             <span className="underline">Register</span>
           </Link>{" "}
           .
         </p>
       </div>
-      {/* Heading */}
 
       {/* Form */}
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 w-full"
-        >
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-neutral-500">Email</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="john@doe.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-neutral-500">Password</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="********" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button className="w-full cursor-pointer" type="submit">
-            Login
-          </Button>
-        </form>
-      </Form>
-      {/* Form */}
+      <LoginForm form={form} onSubmit={onSubmit} />
     </AuthLayout>
   );
 };

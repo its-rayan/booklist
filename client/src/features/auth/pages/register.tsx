@@ -52,7 +52,7 @@ const Register = () => {
         <h1 className="text-xl font-medium">Register</h1>
         <p className="text-neutral-500">
           Already have an account?{" "}
-          <Link to="/login">
+          <Link to={`${PAGE_URL.LOGIN}`}>
             <span className="underline">Login</span>
           </Link>{" "}
           .
