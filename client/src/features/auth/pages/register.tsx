@@ -7,6 +7,7 @@ import AuthLayout from "../layout";
 import RegisterForm from "../forms/register-form";
 import { registerFormSchema } from "../schemas";
 import type { RegisterFormData } from "../interfaces";
+import { API_AUTH_URL, PAGE_URL } from "@/constants/domains";
 
 const Register = () => {
   const form = useForm<z.infer<typeof registerFormSchema>>({
@@ -20,17 +21,29 @@ const Register = () => {
 
   const mutation = useMutation({
     mutationFn: (data: RegisterFormData) => {
-      console.log(data);
-      return fetch("/api", {
+      return fetch(`${API_AUTH_URL}/signup`, {
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
       });
+    },
+    onSuccess: (response) => {
+      // save the token to local storage
+      localStorage.setItem("token", response.data);
+
+      // redirect to the home page
+      window.location.href = `${PAGE_URL.HOME}`;
     },
   });
 
-  const onSubmit = (data: RegisterFormData) => {
-    mutation.mutate(data);
-  };
+  const onSubmit = (data: RegisterFormData) => mutation.mutate(data);
 
   return (
     <AuthLayout>
